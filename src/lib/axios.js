@@ -15,10 +15,11 @@ const processQueue = (error) => {
 }
 
 // Routes that should NEVER trigger a refresh attempt
-const SKIP_REFRESH = ['/auth/refresh', '/auth/login', '/auth/register', '/users/me']
+const SKIP_REFRESH = ['/auth/refresh', '/auth/login', '/auth/register']
 
-const shouldSkipRefresh = (url = '') =>
-  SKIP_REFRESH.some(path => url.includes(path))
+const shouldSkipRefresh = (url = '') => {
+  return SKIP_REFRESH.some(path => url.includes(path))
+}
 
 api.interceptors.response.use(
   (res) => res,

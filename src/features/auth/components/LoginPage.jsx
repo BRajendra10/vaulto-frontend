@@ -32,14 +32,10 @@ export default function LoginPage() {
   })
 
   const onSubmit = async (data) => {
-    console.log('onSubmit triggered')
     try {
       await mutate(data)
-      console.log('navigating...')
       navigate('/dashboard')
-    } catch (e) {
-      console.log('error', e)
-    }
+    } catch (e) { }
   }
 
   return (
