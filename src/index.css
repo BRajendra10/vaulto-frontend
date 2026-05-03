@@ -45,7 +45,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .nav-item.active { color: var(--accent2); background: var(--accent-bg); }
 .nav-item.active::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--accent); border-radius: 0 2px 2px 0; }
 .nav-icon { opacity: 0.9; flex-shrink: 0; }
-.sidebar-bottom { padding: 12px; border-top: 1px solid var(--border); }
+.sidebar-bottom { padding: 10px; border-top: 1px solid var(--border); }
 .user-badge { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg3); border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: border-color 0.15s; }
 .user-badge:hover { border-color: var(--border2); }
 .user-info { flex: 1; min-width: 0; }

@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, FolderOpen, KeyRound,
-  Users, ScrollText, Settings, UserCircle, Lock
+  Users, ScrollText, Settings, UserCircle, Lock, LogOut
 } from 'lucide-react'
 import { useAuth } from '../../features/auth/AuthContext'
 import Avatar from '../ui/Avatar'
@@ -56,6 +56,10 @@ export default function Sidebar() {
             <div className="user-name">{user?.name || user?.email || 'User'}</div>
             <div className="user-role">{user?.role || 'member'}</div>
           </div>
+
+          <button className="logout-btn" onClick={logout}>
+            <LogOut size={16} />
+          </button>
         </div>
       </div>
     </aside>

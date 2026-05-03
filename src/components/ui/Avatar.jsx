@@ -11,6 +11,7 @@ const colorFor = (str = '') => {
   return COLORS[Math.abs(hash) % COLORS.length]
 }
 
+
 export default function Avatar({ name = '', size = 34 }) {
   const color = colorFor(name)
   return (
