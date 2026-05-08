@@ -115,9 +115,9 @@ export default function SecretsTable({ projectId }) {
                       </div>
                     </td>
                     <td><EnvBadge env={s.environment} /></td>
-                    <td><span className="version-tag">v{s.version || 1}</span></td>
+                    <td><span className="version-tag">v{s.current_version || 1}</span></td>
                     <td>{isExpiring ? <span className="badge badge-amber">⚠ Expiring</span> : <span className="badge badge-green">Active</span>}</td>
-                    <td style={{ color: 'var(--text3)', fontSize: 12 }}>{formatRelative(s.updatedAt)}</td>
+                    <td style={{ color: 'var(--text3)', fontSize: 12 }}>{formatRelative(s.updated_at)}</td>
                     <td>
                       <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
                         <button className="icon-btn" title="Rotate" onClick={() => setRotateTarget(s)}><RotateCw size={13} /></button>

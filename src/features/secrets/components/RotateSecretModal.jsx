@@ -15,6 +15,7 @@ export default function RotateSecretModal({ open, onClose, projectId, secret }) 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
   })
+  console.log(secret)
 
   const onSubmit = async (data) => {
     try {

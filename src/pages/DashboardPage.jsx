@@ -45,6 +45,8 @@ export default function DashboardPage() {
   const totalMembers = list.reduce((a, p) => a + (p.membersCount || 0), 0)
   const expiring = list.reduce((a, p) => a + (p.expiringCount || 0), 0)
 
+  console.log(list);
+
   return (
     <>
       <div className="page-header">
@@ -105,7 +107,7 @@ export default function DashboardPage() {
           {list.slice(0, 8).map((p) => (
             <Link key={p.id || p._id} to={`/projects/${p.id || p._id}`} className="project-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <div className="project-name">{p.name}</div>
+                <div className="project-name">{p.project_name}</div>
                 <EnvBadge env={p.environment || p.defaultEnvironment || 'development'} />
               </div>
               <div className="project-desc">{p.description || 'No description'}</div>

@@ -29,11 +29,12 @@ export default function ProjectsPage() {
 
   useEffect(() => { load() }, [load])
 
+  // Search handler - not being used because there is no route for search
   const handleSearch = useCallback((val) => {
     setSearch(val)
     clearTimeout(timer.current)
-    timer.current = setTimeout(() => load({ search: val || undefined }), 300)
-  }, [load])
+    timer.current = setTimeout(() => console.log("Search :", val), 300)
+  }, [])
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
@@ -47,16 +48,12 @@ export default function ProjectsPage() {
     if (id) navigate(`/projects/${id}`)
   }
 
-  const filtered = search
-    ? list.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()))
-    : list
-
   return (
     <>
       <div className="page-header">
         <div>
           <div className="page-title">Projects</div>
-          <div className="page-subtitle">{filtered.length} project{filtered.length !== 1 ? 's' : ''}</div>
+          {/* <div className="page-subtitle">{filtered.length} project{filtered.length !== 1 ? 's' : ''}</div> */}
         </div>
         <Button onClick={() => setShowCreate(true)}><Plus size={14} /> New Project</Button>
       </div>
@@ -75,7 +72,7 @@ export default function ProjectsPage() {
 
       {isLoading ? (
         <div className="projects-grid">{[...Array(6)].map((_, i) => <CardSkeleton key={i} />)}</div>
-      ) : filtered.length === 0 ? (
+      ) : list?.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">📁</div>
           <div className="empty-title">{search ? 'No results found' : 'No projects yet'}</div>
@@ -84,19 +81,18 @@ export default function ProjectsPage() {
         </div>
       ) : (
         <div className="projects-grid">
-          {filtered.map((p) => (
+          {list?.map((p) => (
             <Link key={p.id || p._id} to={`/projects/${p.id || p._id}`} className="project-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <div className="project-name">{p.name}</div>
-                <EnvBadge env={p.environment || p.defaultEnvironment || 'development'} />
+                <div className="project-name">{p.project_name}</div>
               </div>
-              <div className="project-desc">{p.description || 'No description'}</div>
+              {/* <div className="project-desc">{p.description || 'No description'}</div> */}
               <div className="project-meta">
                 <div className="project-stats">
                   <span className="project-stat"><KeyRound size={11} /> {p.secretsCount ?? '—'}</span>
                   <span className="project-stat"><Users size={11} /> {p.membersCount ?? '—'}</span>
                 </div>
-                <span className="project-stat">{formatRelative(p.updatedAt || p.createdAt)}</span>
+                <span className="project-stat">{formatRelative(p.updated_at || p.created_at)}</span>
               </div>
             </Link>
           ))}
