@@ -29,8 +29,18 @@ export const extractApiError = (err) => {
   return data?.message || err?.message || 'Something went wrong'
 }
 
-export const ROLES = { ADMIN: 'admin', DEVELOPER: 'developer', VIEWER: 'viewer' }
-export const ROLE_ORDER = { admin: 3, developer: 2, viewer: 1 }
+export const ROLES = {
+  OWNER: 'owner',
+  ADMIN: 'admin',
+  DEVELOPER: 'developer',
+  VIEWER: 'viewer',
+}
+export const ROLE_ORDER = {
+  viewer: 1,
+  developer: 2,
+  admin: 3,
+  owner: 4,
+}
 export const canManage = (actorRole, targetRole) =>
   (ROLE_ORDER[actorRole] || 0) > (ROLE_ORDER[targetRole] || 0)
 

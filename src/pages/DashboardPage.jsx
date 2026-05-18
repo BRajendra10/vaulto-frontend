@@ -45,8 +45,6 @@ export default function DashboardPage() {
   const totalMembers = list.reduce((a, p) => a + (p.membersCount || 0), 0)
   const expiring = list.reduce((a, p) => a + (p.expiringCount || 0), 0)
 
-  console.log(list);
-
   return (
     <>
       <div className="page-header">

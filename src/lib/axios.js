@@ -21,6 +21,10 @@ const shouldSkipRefresh = (url = '') => {
   return SKIP_REFRESH.some(path => url.includes(path))
 }
 
+// Frontend can bypass refresh retry deterministically by setting this flag.
+const SKIP_REFRESH_FLAG = 'skipAuthRefresh'
+
+
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -30,8 +34,10 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !original._retry &&
+      !original.config?.[SKIP_REFRESH_FLAG] &&
       !shouldSkipRefresh(original.url)
     ) {
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
@@ -44,7 +50,8 @@ api.interceptors.response.use(
       isRefreshing = true
 
       try {
-        await api.post('/auth/refresh')
+        await api.post('/auth/refresh', {}, { [SKIP_REFRESH_FLAG]: true })
+
         processQueue(null)
         return api(original)
       } catch (err) {

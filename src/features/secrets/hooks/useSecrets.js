@@ -4,6 +4,7 @@ import {
   fetchSecrets, createSecret, revealSecret,
   rotateSecret, fetchSecretVersions, deleteSecret, hideSecret
 } from '../../../store/secretsSlice'
+import { useRevealTimeouts } from './useRevealTimeouts'
 import toast from 'react-hot-toast'
 
 export function useSecrets(projectId, env) {
@@ -40,6 +41,7 @@ export function useCreateSecret(projectId) {
 
 export function useRevealSecret(projectId) {
   const dispatch = useDispatch()
+  const { scheduleHide } = useRevealTimeouts()
 
   const mutate = useCallback(async (secretId) => {
     const result = await dispatch(revealSecret({ projectId, secretId }))
@@ -47,10 +49,11 @@ export function useRevealSecret(projectId) {
       toast.error(result.payload || 'Failed to reveal secret')
       throw new Error(result.payload)
     }
-    // Auto-hide after 8 seconds
-    setTimeout(() => dispatch(hideSecret(secretId)), 8000)
+
+    // Auto-hide after 8 seconds (cancellable + per-secret)
+    scheduleHide(secretId, 8000)
     return result.payload
-  }, [dispatch, projectId])
+  }, [dispatch, projectId, scheduleHide])
 
   return { mutate }
 }
@@ -103,3 +106,4 @@ export function useDeleteSecret(projectId) {
 
   return { mutate, isPending: actionLoading }
 }
+
