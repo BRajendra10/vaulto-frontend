@@ -4,6 +4,7 @@ import projectsReducer from './projectsSlice'
 import secretsReducer from './secretsSlice'
 import maintainersReducer from './maintainersSlice'
 import auditReducer from './auditSlice'
+import dashboardReducer from './dashboardSlice'
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     secrets: secretsReducer,
     maintainers: maintainersReducer,
     audit: auditReducer,
+    dashboard: dashboardReducer,
   },
 })
 
