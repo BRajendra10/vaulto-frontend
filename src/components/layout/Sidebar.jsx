@@ -56,8 +56,8 @@ export default function Sidebar() {
             className="w-10 h-10 ring-2 ring-stone-800"
           />
           <div className="user-info">
-            <div className="user-name">{user?.username || user?.email || 'User'}</div>
-            <div className="user-role">{user?.role || 'member'}</div>
+            <div className="user-name">{user?.username}</div>
+            <div className="user-role">{user?.email}</div>
           </div>
 
           <button className="logout-btn" onClick={logout}>

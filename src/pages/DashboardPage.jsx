@@ -15,7 +15,7 @@ import { formatRelative } from '../lib/utils'
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required').regex(/^[a-z0-9-_]+$/i, 'Only letters, numbers, hyphens, underscores'),
-  description: z.string().optional(),
+  description: z.string().max(300, 'Description must be at most 300 characters').optional(),
   environment: z.string(),
 })
 
@@ -136,7 +136,7 @@ export default function DashboardPage() {
           <Input label="Project name" placeholder="my-project" error={errors.name?.message} {...register('name')} />
           <div className="form-group">
             <label className="form-label">Description</label>
-            <textarea className="form-textarea" rows={3} placeholder="What is this project for?" {...register('description')} />
+            <textarea className="form-textarea" rows={3} maxLength={300} placeholder="What is this project for? (optional)" {...register('description')} />
           </div>
           <div className="form-group">
             <label className="form-label">Default environment</label>

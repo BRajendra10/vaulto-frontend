@@ -27,7 +27,7 @@ export default function ProjectDetailPage() {
       <div className="page-header">
         <div>
           <div className="page-title">
-            {isLoading ? <Skeleton width={160} height={24} /> : project?.name || 'Project'}
+            {isLoading ? <Skeleton width={160} height={24} /> : project?.project_name || 'Project'}
           </div>
           <div className="page-subtitle">
             {isLoading

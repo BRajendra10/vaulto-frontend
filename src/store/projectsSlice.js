@@ -23,8 +23,7 @@ export const createProject = createAsyncThunk('projects/create', async (data, { 
   try {
     const res = await api.post('/projects', {
       project_name: data.name,
-      description: data.description,
-      environment: data.environment,
+      description: data.description?.trim() || undefined,
     })
     return res.data.data
   } catch (err) {
@@ -36,8 +35,7 @@ export const updateProject = createAsyncThunk('projects/update', async ({ id, da
   try {
     const res = await api.patch(`/projects/${id}`, {
       project_name: data.name,
-      description: data.description,
-      environment: data.environment,
+      description: data.description?.trim() || undefined,
     })
     return res.data.data
   } catch (err) {

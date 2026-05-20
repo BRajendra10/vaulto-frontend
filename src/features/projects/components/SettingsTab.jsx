@@ -10,7 +10,7 @@ import ConfirmDialog from '../../../components/ui/ConfirmDialog'
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
-  description: z.string().optional(),
+  description: z.string().max(300, 'Description must be at most 300 characters').optional(),
   environment: z.string(),
 })
 
@@ -27,7 +27,7 @@ export default function SettingsTab({ projectId, project }) {
   useEffect(() => {
     if (project) {
       reset({
-        name: project.name || '',
+        name: project.project_name || '',
         description: project.description || '',
         environment: project.environment || project.defaultEnvironment || 'development',
       })
@@ -64,7 +64,7 @@ export default function SettingsTab({ projectId, project }) {
             </div>
             <div className="form-group">
               <label className="form-label">Description</label>
-              <textarea className="form-textarea" rows={3} placeholder="Describe this project..." {...register('description')} />
+              <textarea className="form-textarea" rows={3} maxLength={300} placeholder="Short description (optional)" {...register('description')} />
             </div>
             <Button type="submit" loading={saving}>Save changes</Button>
           </form>
@@ -92,7 +92,7 @@ export default function SettingsTab({ projectId, project }) {
         onConfirm={handleDelete}
         loading={deleting}
         title="Delete Project"
-        message={`Delete "${project?.name}"? All secrets and audit logs will be permanently removed.`}
+        message={`Delete "${project?.project_name}"? All secrets and audit logs will be permanently removed.`}
         confirmLabel="Delete project"
       />
     </>
