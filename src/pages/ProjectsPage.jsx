@@ -89,8 +89,8 @@ export default function ProjectsPage() {
               <div className="project-desc">{p.description || 'No description'}</div>
               <div className="project-meta">
                 <div className="project-stats">
-                  <span className="project-stat"><KeyRound size={11} /> {p.secretsCount ?? '—'}</span>
-                  <span className="project-stat"><Users size={11} /> {p.membersCount ?? '—'}</span>
+                  <span className="project-stat"><KeyRound size={11} /> {p.secrets_count ?? '—'}</span>
+                  <span className="project-stat"><Users size={11} /> {p.maintainers_count ?? '—'}</span>
                 </div>
                 <span className="project-stat">{formatRelative(p.updated_at || p.created_at)}</span>
               </div>

@@ -74,6 +74,19 @@ export const changePassword = createAsyncThunk('auth/changePassword', async (dat
   }
 })
 
+export const updateAvatar = createAsyncThunk('auth/updateAvatar', async (file, { rejectWithValue }) => {
+  try {
+    const formData = new FormData()
+    formData.append('avatar', file)
+    const res = await api.patch('/users/avatar', formData, {
+      headers: { 'Content-Type': undefined },
+    })
+    return res.data.data
+  } catch (err) {
+    return rejectWithValue(err?.response?.data?.message || 'Avatar upload failed')
+  }
+})
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -120,6 +133,14 @@ const authSlice = createSlice({
       .addCase(changePassword.pending,   (state) => { state.actionLoading = true;  state.error = null })
       .addCase(changePassword.fulfilled, (state) => { state.actionLoading = false })
       .addCase(changePassword.rejected,  (state, action) => { state.actionLoading = false; state.error = action.payload })
+
+    builder
+      .addCase(updateAvatar.pending, (state) => { state.actionLoading = true; state.error = null })
+      .addCase(updateAvatar.fulfilled, (state, action) => {
+        if (state.user) state.user = { ...state.user, avatar: action.payload.avatar }
+        state.actionLoading = false
+      })
+      .addCase(updateAvatar.rejected, (state, action) => { state.actionLoading = false; state.error = action.payload })
   },
 })
 

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
-import { login, register, verifyOtp, logout, logoutAll, updateProfile, changePassword } from '../../../store/authSlice'
+import { login, register, verifyOtp, logout, logoutAll, updateProfile, changePassword, updateAvatar } from '../../../store/authSlice'
 import toast from 'react-hot-toast'
 
 export function useLogin() {
@@ -79,6 +79,23 @@ export function useChangePassword() {
       throw new Error(result.payload)
     }
     toast.success('Password changed successfully')
+  }, [dispatch])
+
+  return { mutate, isPending: actionLoading }
+}
+
+export function useUpdateAvatar() {
+  const dispatch = useDispatch()
+  const { actionLoading } = useSelector(s => s.auth)
+
+  const mutate = useCallback(async (file) => {
+    const result = await dispatch(updateAvatar(file))
+    if (updateAvatar.rejected.match(result)) {
+      toast.error(result.payload || 'Avatar upload failed')
+      throw new Error(result.payload)
+    }
+    toast.success('Avatar updated')
+    return result.payload
   }, [dispatch])
 
   return { mutate, isPending: actionLoading }

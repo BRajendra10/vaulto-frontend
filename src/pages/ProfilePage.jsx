@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '../features/auth/AuthContext'
-import { useUpdateProfile, useChangePassword } from '../features/auth/hooks/useAuth'
+import { useUpdateProfile, useChangePassword, useUpdateAvatar } from '../features/auth/hooks/useAuth'
 import Avatar from '../components/ui/Avatar'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
@@ -24,6 +25,8 @@ export default function ProfilePage() {
   const { user, logoutAll, loggingOut } = useAuth()
   const { mutate: updateProfile, isPending: savingProfile } = useUpdateProfile()
   const { mutate: changePassword, isPending: changingPass } = useChangePassword()
+  const { mutate: uploadAvatar, isPending: uploadingAvatar } = useUpdateAvatar()
+  const fileInputRef = useRef(null)
 
   const profileForm = useForm({ resolver: zodResolver(profileSchema) })
   const passwordForm = useForm({ resolver: zodResolver(passwordSchema) })
@@ -49,6 +52,20 @@ export default function ProfilePage() {
 
   const displayName = user?.username || user?.email || ''
 
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file')
+      e.target.value = ''
+      return
+    }
+    try {
+      await uploadAvatar(file)
+    } catch (_) { }
+    e.target.value = ''
+  }
+
   return (
     <>
       <div className="page-header">
@@ -64,12 +81,30 @@ export default function ProfilePage() {
         <div className="profile-section-body">
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
             <Avatar
-              src={user.avatar}
+              key={user?.avatar}
+              src={user?.avatar}
+              name={displayName}
               className="w-10 h-10 ring-2 ring-stone-800"
             />
             <div>
               <div style={{ fontSize: 16, fontWeight: 600 }}>{displayName || '—'}</div>
-              <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 6 }}>{user?.email}</div>
+              <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 8 }}>{user?.email}</div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleAvatarChange}
+              />
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                loading={uploadingAvatar}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Change Avatar
+              </Button>
             </div>
           </div>
           <form onSubmit={profileForm.handleSubmit(onProfileSubmit)}>

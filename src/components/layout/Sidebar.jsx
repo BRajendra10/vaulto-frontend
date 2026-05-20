@@ -52,7 +52,9 @@ export default function Sidebar() {
       <div className="sidebar-bottom">
         <div className="user-badge" onClick={() => navigate('/profile')}>
           <Avatar
-            src={user.avatar}
+            key={user?.avatar}
+            src={user?.avatar}
+            name={user?.username || user?.email}
             className="w-10 h-10 ring-2 ring-stone-800"
           />
           <div className="user-info">
