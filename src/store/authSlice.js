@@ -13,7 +13,8 @@ export const fetchMe = createAsyncThunk('auth/fetchMe', async (_, { rejectWithVa
 
 export const login = createAsyncThunk('auth/login', async (data, { rejectWithValue }) => {
   try {
-    const res = await api.post('/auth/login', data)
+    await api.post('/auth/login', data)
+    const res = await api.get('/users/me')
     return res.data.data
   } catch (err) {
     return rejectWithValue(err?.response?.data?.message || 'Invalid credentials')
@@ -31,7 +32,8 @@ export const register = createAsyncThunk('auth/register', async (data, { rejectW
 
 export const verifyOtp = createAsyncThunk('auth/verifyOtp', async (data, { rejectWithValue }) => {
   try {
-    const res = await api.post('/auth/verify-email', data)
+    await api.post('/auth/verify-email', data)
+    const res = await api.get('/users/me')
     return res.data.data
   } catch (err) {
     return rejectWithValue(err?.response?.data?.message || 'Invalid OTP')

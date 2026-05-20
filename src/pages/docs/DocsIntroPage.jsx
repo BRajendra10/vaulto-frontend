@@ -29,7 +29,7 @@ export default function DocsIntroPage() {
       <Steps>
         <Step n={1} title="Create an account">
           Head to <Link to="/register" style={{ color: '#a394f9' }}>vaulto.app/register</Link> and
-          sign up with your email. You'll receive a 6-digit OTP to verify your account before you can log in.
+          sign up with your full name and email. You'll receive a 6-digit OTP to verify your account before you can log in.
         </Step>
         <Step n={2} title="Create a project">
           A <strong style={{ color: '#e8e8f0' }}>Project</strong> is a container for related secrets —

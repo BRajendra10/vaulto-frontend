@@ -4,15 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '../features/auth/AuthContext'
 import { useUpdateProfile, useChangePassword } from '../features/auth/hooks/useAuth'
-import { RoleBadge } from '../components/ui/Badge'
 import Avatar from '../components/ui/Avatar'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 
 const profileSchema = z.object({
-  firstName: z.string().min(1, 'Required'),
-  lastName: z.string().min(1, 'Required'),
-  email: z.string().email('Invalid email'),
+  username: z.string().trim().min(2, 'Name must be at least 2 characters').max(50, 'Name must be at most 50 characters'),
 })
 
 const passwordSchema = z.object({
@@ -33,16 +30,14 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (user) {
-      profileForm.reset({
-        firstName: user.firstName || user.name?.split(' ')[0] || '',
-        lastName: user.lastName || user.name?.split(' ')[1] || '',
-        email: user.email || '',
-      })
+      profileForm.reset({ username: user.username || '' })
     }
   }, [user])
 
   const onProfileSubmit = async (data) => {
-    try { await updateProfile(data) } catch (_) { }
+    try {
+      await updateProfile({ username: data.username.trim() })
+    } catch (_) { }
   }
 
   const onPasswordSubmit = async (data) => {
@@ -52,11 +47,7 @@ export default function ProfilePage() {
     } catch (_) { }
   }
 
-  const fullName = user
-    ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.name || user.email
-    : ''
-
-    console.log(user)
+  const displayName = user?.username || user?.email || ''
 
   return (
     <>
@@ -77,16 +68,13 @@ export default function ProfilePage() {
               className="w-10 h-10 ring-2 ring-stone-800"
             />
             <div>
-              <div style={{ fontSize: 16, fontWeight: 600 }}>{fullName || '—'}</div>
+              <div style={{ fontSize: 16, fontWeight: 600 }}>{displayName || '—'}</div>
               <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 6 }}>{user?.email}</div>
             </div>
           </div>
           <form onSubmit={profileForm.handleSubmit(onProfileSubmit)}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              <Input label="First name" error={profileForm.formState.errors.firstName?.message} {...profileForm.register('firstName')} />
-              <Input label="Last name" error={profileForm.formState.errors.lastName?.message}  {...profileForm.register('lastName')} />
-            </div>
-            <Input label="Email address" type="email" error={profileForm.formState.errors.email?.message} {...profileForm.register('email')} />
+            <Input label="Full name" error={profileForm.formState.errors.username?.message} {...profileForm.register('username')} />
+            <Input label="Email address" type="email" value={user?.email || ''} disabled />
             <Button type="submit" loading={savingProfile}>Save changes</Button>
           </form>
         </div>

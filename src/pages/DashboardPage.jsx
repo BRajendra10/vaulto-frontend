@@ -50,7 +50,7 @@ export default function DashboardPage() {
       <div className="page-header">
         <div>
           <div className="page-title">
-            Good {getGreeting()}, {user?.firstName || user?.name?.split(' ')[0] || 'there'} 👋
+            Good {getGreeting()}, {user?.username?.split(' ')[0] || 'there'} 👋
           </div>
           <div className="page-subtitle">Here's what's happening in your vault</div>
         </div>

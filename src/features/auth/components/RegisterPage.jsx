@@ -8,8 +8,7 @@ import Input from '../../../components/ui/Input'
 import Button from '../../../components/ui/Button'
 
 const schema = z.object({
-  firstName: z.string().min(1, 'Required'),
-  lastName: z.string().min(1, 'Required'),
+  username: z.string().trim().min(2, 'Name must be at least 2 characters').max(50, 'Name must be at most 50 characters'),
   email: z.string().email('Invalid email'),
   password: z.string().min(8, 'Min 8 characters'),
 })
@@ -24,7 +23,11 @@ export default function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
-      await mutate(data)
+      await mutate({
+        username: data.username.trim(),
+        email: data.email,
+        password: data.password,
+      })
       navigate('/verify-otp', { state: { email: data.email } })
     } catch (_) { }
   }
@@ -40,10 +43,7 @@ export default function RegisterPage() {
         <h1 className="auth-heading">Create account</h1>
         <p className="auth-sub">Start managing secrets securely</p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <Input label="First name" placeholder="Jane" error={errors.firstName?.message} {...register('firstName')} />
-            <Input label="Last name" placeholder="Doe" error={errors.lastName?.message} {...register('lastName')} />
-          </div>
+          <Input label="Full name" placeholder="Rajendra Behera" error={errors.username?.message} {...register('username')} />
           <Input label="Email address" type="email" placeholder="you@company.com" error={errors.email?.message} {...register('email')} />
           <Input label="Password" autoComplete="off" type="password" placeholder="Min. 8 characters" error={errors.password?.message} {...register('password')} />
           <Button type="submit" loading={isPending} fullWidth style={{ marginTop: 8 }}>

@@ -56,7 +56,7 @@ export default function Sidebar() {
             className="w-10 h-10 ring-2 ring-stone-800"
           />
           <div className="user-info">
-            <div className="user-name">{user?.name || user?.email || 'User'}</div>
+            <div className="user-name">{user?.username || user?.email || 'User'}</div>
             <div className="user-role">{user?.role || 'member'}</div>
           </div>
 
