@@ -1,16 +1,91 @@
-# React + Vite
+# Vaulto Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite UI for Vaulto.
 
-Currently, two official plugins are available:
+This frontend communicates with the backend using cookie-based authentication (`withCredentials: true`). The backend API base path defaults to:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- `http://localhost:3000/api/v1`
 
-## React Compiler
+## 🚀 Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js (LTS recommended)
+- npm
 
-## Expanding the ESLint configuration
+## 📦 Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+```
+
+## 🌍 Environment Variables
+
+Create a `.env` file in `vaulto-frontend/`.
+
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+```
+
+Authentication relies on browser cookies set by the backend, so keep `withCredentials: true` (already configured in `src/lib/axios.js`).
+
+## 🧑‍💻 Development
+
+```bash
+npm run dev
+```
+
+## 🏗️ Build
+
+```bash
+npm run build
+```
+
+## 👀 Preview production build
+
+```bash
+npm run preview
+```
+
+## 👀 Preview Links
+
+- **Watch Demo:** [View Here](https://drive.google.com/file/d/1_g2SyaP_WNV39AbhTBAQBpEbpffN_zUN/view?usp=sharing)
+
+## 🔁 Quick Start (Backend + Frontend)
+
+
+1) Backend:
+```bash
+cd vaulto-backend
+npm install
+node src/db/migrations/run.js
+npm start
+```
+
+2) Frontend:
+```bash
+cd vaulto-frontend
+npm install
+npm run dev
+```
+
+Then open the URL printed by Vite (typically `http://localhost:5173`).
+
+## Notes on Auth
+
+- The frontend auto-calls `POST /auth/refresh` when it receives a 401, using an axios response interceptor (`src/lib/axios.js`).
+- If refresh fails, the user is redirected to `/login`.
+
+
+---
+
+## ❤️ Links / Contact
+
+Made by **Rajendra Behera**
+
+**Email:** [rajendrabehera8116@gmail.com](mailto:rajendrabehera8116@gmail.com)  
+**LinkedIn:** [/behera-rajendra](https://www.linkedin.com/in/behera-rajendra/)  
+**GitHub:** [/BRajendra10](https://github.com/BRajendra10)  
+
+**Frontend:** [EdTech-Frontend](https://github.com/BRajendra10/vaulto-frontend)  
+**Backend:** [EdTech-Backend](https://github.com/BRajendra10/vaulto-backend/)  
+
+---
