@@ -28,7 +28,8 @@ export default function RegisterPage() {
         email: data.email,
         password: data.password,
       })
-      navigate('/verify-otp', { state: { email: data.email } })
+      // navigate('/verify-otp', { state: { email: data.email } })
+      navigate('/login');
     } catch (_) { }
   }
 
